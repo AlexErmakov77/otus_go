@@ -1,3 +1,6 @@
-module github.com/fixme_my_friend/hw01_hello_otus
+
+
+module github.com/golang/example/stringutil
+
 
 go 1.16
