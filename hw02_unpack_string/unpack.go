@@ -50,9 +50,9 @@ func Unpack(s string) (string, error) {
 					sb.WriteString(s3)
 				}
 
-				if unicode.IsDigit(sr[i]) && !unicode.IsDigit(sr[i+1]) {
-					continue
-				}
+				// if unicode.IsDigit(sr[i]) && !unicode.IsDigit(sr[i+1]) {
+				// 	continue
+				// }
 			}
 
 			if !unicode.IsDigit(sr[lenS]) {
