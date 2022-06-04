@@ -48,5 +48,4 @@ func Top10(str string) []string {
 		}
 	}
 	return topSlice
-
 }
