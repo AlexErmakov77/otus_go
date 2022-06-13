@@ -10,7 +10,6 @@ type dictWord struct {
 	count int
 }
 
-var word string
 var reg = regexp.MustCompile(`[^\r\n\t\f\v\s]+`)
 
 func Top10(str string) []string {
@@ -21,7 +20,7 @@ func Top10(str string) []string {
 
 	res := reg.FindAllString(str, -1)
 	for i := range res {
-		word = string(res[i])
+		word := res[i]
 		words[word]++
 	}
 	top := make([]dictWord, 0, len(words))
