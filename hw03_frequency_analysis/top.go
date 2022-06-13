@@ -23,24 +23,20 @@ func Top10(str string) []string {
 		word := string(res[i])
 		words[word]++
 	}
-
 	top := make([]dictWord, 0, len(words))
 	for w, c := range words {
 		top = append(top, dictWord{w, c})
 	}
-
 	sort.Slice(top, func(i int, j int) bool {
 		if top[i].count == top[j].count {
 			return top[i].word < top[j].word
 		}
 		return top[i].count > top[j].count
 	})
-
 	lenList := len(top)
 	if lenList > 10 {
 		lenList = 10
 	}
-
 	topSlice := make([]string, 0, lenList)
 	for i, v := range top {
 		if i < lenList {
