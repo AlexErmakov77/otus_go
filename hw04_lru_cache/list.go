@@ -38,78 +38,88 @@ func (l *list) Back() *ListItem {
 	return l.back
 }
 
-func (l *list) Remove(i *ListItem) {
-	if i.Prev == nil {
-		l.front = i.Next
-	} else {
-		i.Prev.Next = i.Next
+func (l *list) PushFront(v interface{}) *ListItem {
+	newItem := ListItem{
+		Value: v,
 	}
-
-	if i.Next == nil {
-		l.back = i.Prev
+	if l.front == nil {
+		l.front = &newItem
+		l.back = &newItem
+		newItem.Prev = nil
+		newItem.Next = nil
 	} else {
-		i.Next.Prev = i.Prev
+		l.insertBefore(l.front, &newItem)
 	}
+	l.len++
+	return &newItem
+}
 
-	if l.len == 0 {
+func (l *list) PuchBack(v interface{}) *ListItem {
+	newItem := ListItem{
+		Value: v,
+	}
+	if l.back == nil {
+		return l.PushFront(v)
+	}
+	l.insertAfter(l.back, &newItem)
+	l.len++
+	return &newItem
+}
+
+func (l *list) Remove(item *ListItem) {
+	if item == nil {
 		return
+	}
+	if item.Prev == nil {
+		l.front = item.Next
+	} else {
+		item.Prev.Next = item.Next
+	}
+	if item.Next == nil {
+		l.back = item.Prev
+	} else {
+		item.Prev.Next = item.Prev
 	}
 	l.len--
 }
 
-func (l *list) PushFront(v interface{}) *ListItem {
-	item := ListItem{
-		Value: v,
-		Next:  l.front,
-	}
-
-	if item.Next != nil {
-		l.front.Prev = &item
-	}
-
-	if l.back == nil {
-		l.back = &item
-	}
-
-	l.len++
-	l.front = &item
-	return &item
-}
-
-func (l *list) PushBack(v interface{}) *ListItem {
-	item := ListItem{
-		Value: v,
-		Prev:  l.back,
-	}
-
-	if item.Prev == nil {
-		l.front = &item
-	} else {
-		l.back.Next = &item
-	}
-
-	l.len++
-	l.back = &item
-	return &item
-}
-
-func (l *list) MoveToFront(i *ListItem) {
-	if l.front == i {
+func (l *list) MoveToFront(item *ListItem) {
+	if item == nil || item.Next == nil || l.len == 1 {
 		return
 	}
-
-	if i.Next == nil {
-		l.back = i.Prev
+	if item.Next == nil {
+		item.Prev.Next = nil
+		l.back = item.Prev
 	} else {
-		i.Next.Prev = i.Prev
+		item.Prev.Next = item.Next
+		item.Next.Prev = item.Prev
 	}
+	item.Prev = nil
+	item.Next = l.front
+	l.front.Prev = item
+	l.front = item
+}
 
-	if i.Prev != nil {
-		i.Prev.Next = i.Next
-		i.Next = l.front
-		l.front.Prev = i
+func (l *list) insertAfter(item *ListItem, newItem *ListItem) {
+	newItem.Next.Prev = item
+	if item.Next == nil {
+		newItem.Next = nil
+		l.back = newItem
+	} else {
+		newItem.Next = item.Next
+		item.Next.Prev = newItem
 	}
+	item.Next = newItem
+}
 
-	i.Prev = nil
-	l.front = i
+func (l *list) insertBefore(item *ListItem, newItem *ListItem) {
+	newItem.Next = item
+	if item.Prev == nil {
+		newItem.Prev = nil
+		l.front = newItem
+	} else {
+		newItem.Prev = item.Prev
+		item.Prev.Next = newItem
+	}
+	item.Prev = newItem
 }

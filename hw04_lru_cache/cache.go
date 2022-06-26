@@ -28,9 +28,7 @@ func (c *lruCache) Set(key Key, value interface{}) bool {
 
 	if elem, ok := c.items[key]; ok {
 		c.queue.MoveToFront(elem)
-		// elem.Value.(*cacheItem).value = value
-		cacheItem := elem.Value.(*cacheItem)
-		cacheItem.value = value
+		elem.Value.(*cacheItem).value = value
 		return true
 	}
 
