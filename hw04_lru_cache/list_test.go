@@ -15,6 +15,29 @@ func TestList(t *testing.T) {
 		require.Nil(t, l.Back())
 	})
 
+	t.Run("test len five list", func(t *testing.T) {
+		l := NewList()
+		testLen := 5
+		for i := 0; i < testLen; i++ {
+			l.PushFront(i * 10)
+		}
+		listLen := l.Len()
+		if listLen != testLen {
+			t.Fatalf("bad list len %d: expected %d", listLen, testLen)
+		}
+	})
+
+	t.Run("last and first in list", func(t *testing.T) {
+		l := NewList()
+		testLen := 5
+		for i := 0; i < testLen; i++ {
+			l.PushFront(i*10 + 10)
+		}
+
+		require.Equal(t, 50, l.Front().Value)
+		require.Equal(t, 10, l.Back().Value)
+	})
+
 	t.Run("complex", func(t *testing.T) {
 		l := NewList()
 
