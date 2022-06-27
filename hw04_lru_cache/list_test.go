@@ -27,7 +27,7 @@ func TestList(t *testing.T) {
 		}
 	})
 
-	t.Run("last and first in list", func(t *testing.T) {
+	t.Run("front and back in list", func(t *testing.T) {
 		l := NewList()
 		testLen := 5
 		for i := 0; i < testLen; i++ {
