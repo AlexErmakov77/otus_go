@@ -43,6 +43,29 @@ var text = `Как видите, он  спускается  по  лестни�
 	посидеть у огня и послушать какую-нибудь интересную сказку.
 		В этот вечер...`
 
+var testExt = []struct {
+	title    string
+	input    string
+	expected []string
+}{
+	{
+		title: "текст более 10 повторов",
+		input: `1 2 2 3 3 3 4 4 4 4 5 5 5 5 5 6 6 6 6 6 6 7 7 7 7 7 7 7 8 8 8 8 8 8 8 8 
+		9 9 9 9 9 9 9 9 9 A A A A A A A A A A B B B B B B B B B B B C C C C C C C C C C C C 
+		 D D D D D D D D D D D D D E E E E E E E E E E E E E E`,
+		expected: []string{"E", "D", "C", "B", "A", "9", "8", "7", "6", "5"},
+	},
+	{
+		title: "текст 5 повторов",
+		input: `Повторитель текста прост в использовании
+		текста прост в использовании
+		прост в использовании
+		в использовании
+		использовании`,
+		expected: []string{"использовании", "в", "прост", "текста", "Повторитель"},
+	},
+}
+
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
 		require.Len(t, Top10(""), 0)
@@ -79,4 +102,12 @@ func TestTop10(t *testing.T) {
 			require.Equal(t, expected, Top10(text))
 		}
 	})
+}
+
+func TestTop10Ext(t *testing.T) {
+	for _, i := range testExt {
+		t.Run(i.title, func(t *testing.T) {
+			require.Equal(t, i.expected, Top10(i.input))
+		})
+	}
 }
