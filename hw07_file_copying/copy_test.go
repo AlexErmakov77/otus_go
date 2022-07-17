@@ -50,31 +50,6 @@ func TestCopy(t *testing.T) {
 		})
 	}
 
-	t.Run("Offset exceeds file size", func(t *testing.T) {
-		err := Copy(source, destination.Name(), 10000, 0)
-		require.Error(t, err, ErrFromPathIsUndefined)
-	})
-
-	t.Run("FromPath is undefined", func(t *testing.T) {
-		err := Copy("", destination.Name(), 0, 0)
-		require.Error(t, err, ErrFromPathIsUndefined)
-	})
-
-	t.Run("ToPath is undefined", func(t *testing.T) {
-		err := Copy(source, "", 0, 0)
-		require.Error(t, err, ErrToPathIsUndefined)
-	})
-
-	t.Run("Offset is negative", func(t *testing.T) {
-		err := Copy(source, destination.Name(), -1, 0)
-		require.Error(t, err, ErrOffsetIsNegative)
-	})
-
-	t.Run("Limit is negative", func(t *testing.T) {
-		err := Copy(source, destination.Name(), 0, -1)
-		require.Error(t, err, ErrOffsetIsNegative)
-	})
-
 	t.Run("Unsupported source file", func(t *testing.T) {
 		err := Copy("/dev/urandom", destination.Name(), 0, 0)
 

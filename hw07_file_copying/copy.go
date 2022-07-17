@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/cheggaaa/pb/v3"
+	"github.com/cheggaaa/pb"
 )
 
 var (
