@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"log"
+	"strings"
 )
 
 var (
@@ -19,4 +21,19 @@ func init() {
 func main() {
 	flag.Parse()
 	// Place your code here.
+	if len(strings.TrimSpace(from)) == 0 {
+		log.Fatal("empty argument  -from")
+	}
+	if len(strings.TrimSpace(to)) == 0 {
+		log.Fatal("empty argument  -to")
+	}
+	if limit < 0 {
+		log.Fatal("enter limit pozitive !")
+	}
+	if offset < 0 {
+		log.Fatal("enter offset pozitive !")
+	}
+	if err := Copy(from, to, offset, limit); err != nil {
+		println(err)
+	}
 }
