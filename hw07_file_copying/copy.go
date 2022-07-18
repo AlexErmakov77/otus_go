@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"io"
-	"log"
 	"os"
 
 	"github.com/cheggaaa/pb"
@@ -26,7 +25,7 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 		return ErrUnsupportedFile
 	}
 	if offset > fileSize {
-		log.Fatal(" offset > fileSize")
+		return ErrOffsetExceedsFileSize
 	}
 	if limit > fileSize {
 		limit = fileSize
