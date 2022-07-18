@@ -28,6 +28,12 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	if offset > fileSize {
 		log.Fatal(" offset > fileSize")
 	}
+	if limit > fileSize {
+		limit = fileSize
+	}
+	if offset+limit > fileSize {
+		limit = fileSize - offset
+	}
 
 	source, err := os.Open(fromPath)
 	if err != nil {
@@ -38,17 +44,18 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	if _, err = source.Seek(offset, io.SeekStart); err != nil {
 		return err
 	}
-	barSize := limit
-	if barSize == 0 || limit > fileSize-offset {
-		barSize = fileSize - offset
+	barSize := fileSize
+	if limit != 0 {
+		barSize = limit
 	}
+
 	destFile, err := os.Create(toPath)
 	if err != nil {
 		return err
 	}
 	defer destFile.Close()
 
-	bar := pb.Full.Start64(barSize)
+	bar := pb.New64(barSize)
 	defer bar.Finish()
 	barReader := bar.NewProxyReader(source)
 	_, err = io.CopyN(destFile, barReader, barSize)
