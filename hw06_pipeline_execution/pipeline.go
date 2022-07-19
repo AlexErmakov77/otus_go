@@ -13,7 +13,7 @@ func ExecutePipeline(in In, done In, stages ...Stage) Out {
 	pipelineIn := make(In)
 	pipelineOut := make(Out)
 
-	if len(stages) <= 0 {
+	if len(stages) == 0 {
 		emptyCh := make(chan I)
 		close(emptyCh)
 		return emptyCh
