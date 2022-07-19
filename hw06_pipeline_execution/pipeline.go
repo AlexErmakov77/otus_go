@@ -17,7 +17,6 @@ func ExecutePipeline(in In, done In, stages ...Stage) Out {
 		emptyCh := make(chan I)
 		close(emptyCh)
 		return emptyCh
-
 	}
 
 	for i := 0; i < len(stages); i++ {
